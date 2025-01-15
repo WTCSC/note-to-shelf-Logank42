@@ -1,35 +1,31 @@
 #!/bin/bash
 
-filename='notes.txt'
-#
+filename='notes.txt' # The file where all the notes are stored
 
-if [ $1 = "add" ]; then
-    if [ $2 != "" ]; then
-        timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-        echo $timestamp + $2>> $filename
+if [ $1 = "add" ]; then # Checks first arguement for the add command
+    if [ "$2" != "" ]; then # Makes sure the arguement isn't empty
+        timestamp=$(date +"%Y-%m-%d %H:%M:%S") # Using the date command and includes year, month, day, hour, minute, second
+        echo $timestamp: $2>> $filename # Adds the time stamp and the input you gave it into the notes.txt
+        echo "$2" was succesfully added to $filename
 
-    else
+    else # Prints an error message if you dont put anything after add
         echo 'Error. Must have a message input after "add."'
         exit 1
     fi
 
-elif [ $1 = "list" ]; then
-    cat notes.txt
+elif [ $1 = "list" ]; then # Checks first arguement for the list command
+    cat notes.txt # Prints all contents of the file
 
-elif [ $1 = "search" ]; then
-    if [ $2 != "" ]; then
-        grep $2 $3
+elif [ $1 = "search" ]; then # Checks first arguement for the search command
+    if [ "$2" != "" ]; then # Makes sure the arguement isn't empty
+        grep -i $2 $filename # Looks for the word or phrase you entered and prints any matching notes
 
-    elif [ $3 != "" ]; then
-        echo 'Error. Must have a file name.'
-        exit 1
-
-    else
+    else # Prints an error message if you dont put anything to search
         echo 'Error. Must have a message input after "search."'
         exit 1
     fi
 
-else
+else # Prints an error message if you dont put in a command
     echo "Command not found. Valid commands: add, list, search."
     exit 1
 fi
